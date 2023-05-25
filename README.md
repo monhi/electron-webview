@@ -6,6 +6,7 @@ This is a simple Electron application to create a webview.
 
 Features:
 - Now in my fork, it can open anchor links .
+- Now in my fork, it supports window.prompt functions.
 - Responsive window
 - Remember the window dimensions when reopening
 - Menu & keyboard shortcuts for MacOs
