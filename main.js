@@ -1,6 +1,5 @@
 // Electron
-const { app, Menu } = require("electron");
-const { BrowserWindow } = require("electron"); 
+const { app, Menu, desktopCapturer , BrowserWindow} = require("electron");
 const remoteMain = require("@electron/remote/main");
 const prompt = require('electron-prompt');
 
@@ -45,7 +44,18 @@ app.on("ready", () => {
   const builtMenu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(builtMenu);
   
-  //var promptResponse
+  ipcMain.on('select-media', (eventRet, arg)=>
+  {
+	let selectedSource;
+	desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+	  for (const source of sources) 
+	  {
+		selectedSource = source;			
+	  }
+	  eventRet.returnValue = selectedSource;
+	})	  
+  })
+  
   ipcMain.on('prompt', (eventRet, arg)=>
   {
 
@@ -71,40 +81,8 @@ app.on("ready", () => {
 		}
 	})
 	.catch(console.log);
-
-	  
-/*	  
-    promptResponse = null
-    var promptWindow = new BrowserWindow({
-      width: 200,
-      height: 100,
-      show: false,
-      resizable: false,
-      movable: false,
-      alwaysOnTop: true,
-      frame: false
-    })
-    arg.val = arg.val || '';
-    const promptHtml = '<label for="val">' + arg.title + '</label>\
-    <input id="val" value="' + arg.val + '" autofocus />\
-    <button onclick="require(\'electron\').ipcRenderer.send(\'prompt-response\', document.getElementById(\'val\').value);window.close()">Ok</button>\
-    <button onclick="window.close()">Cancel</button>\
-    <style>body {font-family: sans-serif;} button {float:right; margin-left: 10px;} label,input {margin-bottom: 10px; width: 100%; display:block;}</style>'
-    promptWindow.loadURL('data:text/html,' + promptHtml)
-    promptWindow.show()
-    promptWindow.on('closed', function() {
-      eventRet.returnValue = promptResponse
-      promptWindow = null
-    })
-*/	
   })
-/*  
-  ipcMain.on('prompt-response', function(event, arg) 
-  {
-    if (arg === ''){ arg = null }
-    promptResponse = arg
-  })  
-*/
+
 });
 
 // Quit when all windows are closed.
