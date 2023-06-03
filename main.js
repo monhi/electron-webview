@@ -95,7 +95,7 @@ app.on("ready", () => {
 		else 
 		{
 			eventRet.returnValue = r;
-			console.log('Result di:', r);
+			console.log('Return is:', r);
 		}
 	})
 	.catch(console.log);
