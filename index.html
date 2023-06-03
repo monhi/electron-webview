@@ -24,10 +24,11 @@
     <webview
       id="webview"
       autosize="on"
-      webpreferences="nativeWindowOpen=true"
+	  preload="./preload.js"
+      webpreferences="nodeIntegration=true, contextIsolation=false"
       allowpopups
-	  src="https://meet.google.com/ukk-ffvb-wen"
-	  data-home="https://meet.google.com/ukk-ffvb-wen"
+	  src="http://localhost:5000"
+	  data-home="http://localhost:5000"
     ></webview>
 
 		

@@ -1,12 +1,12 @@
 // Electron
-const { app, Menu, desktopCapturer , BrowserWindow} = require("electron");
+const { app, Menu,webContents , desktopCapturer , BrowserWindow} = require("electron");
 const remoteMain = require("@electron/remote/main");
 const prompt = require('electron-prompt');
 
 remoteMain.initialize();
 
 const electron = require('electron');
-const ipcMain = electron.ipcMain
+const ipcMain  = electron.ipcMain;
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -22,15 +22,33 @@ app.on('web-contents-created', function (webContentsCreatedEvent, contents) {
   }
 });
 
+/*
+app.on('browser-window-created', (_, window) => {
+	console.log("browser-window-created is called.",window.webContents);
+    require("@electron/remote/main").enable(window.webContents)
+})
+*/
+
 app.on("ready", () => {
   // Main window
   const window = require("./src/window");
   mainWindow = window.createBrowserWindow(app);
   remoteMain.enable(mainWindow.webContents);
-
+  
+  var self = mainWindow;
+  
+  mainWindow.webContents.on('did-attach-webview', () => {
+		  console.log("HERE:");
+		  const all = webContents.getAllWebContents();
+		  all.forEach((item) => {
+			remoteMain.enable(item);
+		 });
+  });  
+  
+  
+  
   // Option 1: Uses Webtag and load a custom html file with external content
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-
   // Option 2: Load directly an URL if you don't need interface customization
   //mainWindow.loadURL("https://github.com");
   // Option 3: Uses BrowserView to load an URL

@@ -21,12 +21,12 @@
   "author": "GitHub",
   "license": "MIT",
   "dependencies": {
-    "@electron/remote": "^2.0.0",
+    "@electron/remote": "^2.0.9",
+    "electron": "^24.2.0",
     "electron-prompt": "^1.7.0",
     "gicon": "git@github.com:lunascape/Gicon.git#upgrades/vlatko"
   },
   "devDependencies": {
-    "electron": "19.0.8",
     "electron-installer-dmg": "^4.0.0"
   }
 }

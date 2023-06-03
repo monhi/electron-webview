@@ -19,6 +19,7 @@ window.navigator.mediaDevices.getDisplayMedia =function (constraints)
     }
   
     const preferredMediaSource = ipcRenderer.sendSync('select-media');
+	console.log("MONHI:",preferredMediaSource);
   
   
   if (constraints.video === true) 
@@ -35,12 +36,12 @@ window.navigator.mediaDevices.getDisplayMedia =function (constraints)
 
 
 
-navigator.mediaDevices.getDisplayMedia = function (window, preferredMediaSource) 
+window.navigator.mediaDevices.getDisplayMedia = function (window, preferredMediaSource) 
 {
   const selectedSource = ipcRenderer.sendSync('select-media');
 	console.log("MONHI:",selectedSource);
   // create MediaStream
-	const stream = await navigator.mediaDevices.getUserMedia({
+	const stream = navigator.mediaDevices.getUserMedia({
 		audio: false,
 		video: {
 		mandatory: {
